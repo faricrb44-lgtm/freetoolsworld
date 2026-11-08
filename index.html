@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreeToolsWorld - Free Online Tools</title>
+<meta name="description" content="FreeToolsWorld offers free online tools for images, QR codes, age calculation and word counting.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:#111827;color:white;padding:20px;text-align:center}
+header h1{margin:0;color:#60d9ff}
+header p{color:#d1d5db}
+.hero{text-align:center;padding:35px 15px}
+.hero h2{font-size:28px}
+.container{max-width:850px;margin:auto;padding:15px}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 12px #00000010}
+.card h3{margin-top:0;color:#1261c9}
+button{background:#1769e0;color:white;border:0;padding:12px 17px;border-radius:8px;cursor:pointer;margin-top:10px}
+input,textarea{width:100%;padding:12px;margin-top:10px;border:1px solid #ccd3df;border-radius:8px;font-size:15px}
+textarea{min-height:100px}
+.result{margin-top:12px;font-weight:bold;overflow-wrap:anywhere}
+.tool{background:white;padding:20px;margin-top:20px;border-radius:14px}
+footer{text-align:center;padding:25px;background:#111827;color:white;margin-top:30px}
+@media(max-width:480px){.tools{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>FreeToolsWorld</h1>
+<p>All Your Tools, One Place.</p>
+</header>
+
+<div class="hero">
+<h2>Free Online Tools For Everyone</h2>
+<p>Simple, fast and free tools to make your daily work easier.</p>
+</div>
+
+<div class="container">
+<h2>Explore Our Tools</h2>
+
+<div class="tools">
+<div class="card">
+<h3>🖼️ Image Compressor</h3>
+<p>Reduce image file size.</p>
+<button onclick="show('image')">Open Tool</button>
+</div>
+
+<div class="card">
+<h3>🔳 QR Generator</h3>
+<p>Create QR codes easily.</p>
+<button onclick="show('qr')">Open Tool</button>
+</div>
+
+<div class="card">
+<h3>🎂 Age Calculator</h3>
+<p>Calculate your age.</p>
+<button onclick="show('age')">Open Tool</button>
+</div>
+
+<div class="card">
+<h3>📝 Word Counter</h3>
+<p>Count words and characters.</p>
+<button onclick="show('word')">Open Tool</button>
+</div>
+</div>
+
+<section class="tool" id="image">
+<h2>Image Compressor</h2>
+<input type="file" id="imgFile" accept="image/*">
+<label>Image quality</label>
+<input type="range" id="quality" min="10" max="100" value="70">
+<button onclick="compress()">Compress Image</button>
+<div id="imgResult" class="result"></div>
+</section>
+
+<section class="tool" id="qr">
+<h2>QR Code Generator</h2>
+<input id="qrText" placeholder="Enter text or website URL">
+<button onclick="makeQR()">Generate QR Code</button>
+<div id="qrResult" class="result"></div>
+</section>
+
+<section class="tool" id="age">
+<h2>Age Calculator</h2>
+<input type="date" id="birth">
+<button onclick="calculateAge()">Calculate Age</button>
+<div id="ageResult" class="result"></div>
+</section>
+
+<section class="tool" id="word">
+<h2>Word Counter</h2>
+<textarea id="words" placeholder="Write or paste your text here..." oninput="countWords()"></textarea>
+<div id="wordResult" class="result">Words: 0 | Characters: 0</div>
+</section>
+</div>
+
+<footer>
+<h3>FreeToolsWorld</h3>
+<p>Free tools for everyone.</p>
+<p>© 2026 FreeToolsWorld. All rights reserved.</p>
+</footer>
+
+<script>
+function show(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+function countWords(){
+let t=document.getElementById("words").value.trim();
+let w=t?t.split(/\s+/).length:0;
+document.getElementById("wordResult").textContent=
+"Words: "+w+" | Characters: "+document.getElementById("words").value.length;
+}
+
+function calculateAge(){
+let v=document.getElementById("birth").value;
+if(!v){alert("Please select your birth date");return;}
+let b=new Date(v+"T00:00:00");
+let today=new Date();
+if(b>today){alert("Please select a valid date");return;}
+let y=today.getFullYear()-b.getFullYear();
+let m=today.getMonth()-b.getMonth();
+let d=today.getDate()-b.getDate();
+if(d<0){m--;d+=new Date(today.getFullYear(),today.getMonth(),0).getDate();}
+if(m<0){y--;m+=12;}
+document.getElementById("ageResult").textContent=
+"Your age: "+y+" years, "+m+" months, "+d+" days.";
+}
+
+function makeQR(){
+let t=document.getElementById("qrText").value.trim();
+if(!t){alert("Enter some text first");return;}
+let url="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+encodeURIComponent(t);
+document.getElementById("qrResult").innerHTML=
+'<img alt="QR Code" src="'+url+'" width="200"><br><a href="'+url+'" download="qrcode.png">Download QR Code</a>';
+}
+
+function compress(){
+let file=document.getElementById("imgFile").files[0];
+if(!file){alert("Please choose an image");return;}
+if(!file.type.startsWith("image/")){alert("Please select a valid image");return;}
+let reader=new FileReader();
+reader.onload=e=>{
+let img=new Image();
+img.onload=()=>{
+let canvas=document.createElement("canvas");
+canvas.width=img.width;
+canvas.height=img.height;
+canvas.getContext("2d").drawImage(img,0,0);
+canvas.toBlob(blob=>{
+if(!blob){alert("Compression failed");return;}
+let url=URL.createObjectURL(blob);
+let old=document.getElementById("imgResult");
+old.innerHTML="Original: "+Math.round(file.size/1024)+" KB<br>Compressed: "+Math.round(blob.size/1024)+" KB<br>";
+let link=document.createElement("a");
+link.href=url;
+link.download="compressed-image.jpg";
+link.textContent="Download Compressed Image";
+old.appendChild(link);
+},"image/jpeg",Number(document.getElementById("quality").value)/100);
+};
+img.onerror=()=>alert("Could not load image");
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
