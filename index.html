@@ -40,6 +40,7 @@ footer p{color:#c5cfdf}
 @media(max-width:700px){.tools{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:29px}}
 @media(max-width:450px){.tools{grid-template-columns:1fr}.card{padding:20px}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -74,6 +75,11 @@ footer p{color:#c5cfdf}
 <p>Create QR codes from text or links.</p>
 <button onclick="showTool('qr')">Open Tool</button>
 </div>
+  <div class="card" data-name="image to pdf converter">
+<h3>📄 Image to PDF</h3>
+<p>Convert multiple images into one PDF file.</p>
+<button onclick="showTool('imgpdf')">Open Tool</button>
+  </div>
 <div class="card" data-name="age calculator birthday">
 <h3>🎂 Age Calculator</h3>
 <p>Calculate your exact age.</p>
@@ -168,7 +174,13 @@ footer p{color:#c5cfdf}
 <button onclick="document.getElementById('calcDisplay').value=''">Clear</button>
 <div id="calcResult" class="result"></div>
 </section>
-
+<section class="tool" id="imgpdf">
+<h2>Image to PDF Converter</h2>
+<p>Select one or more images to create a PDF file.</p>
+<input type="file" id="pdfImages" accept="image/*" multiple>
+<button onclick="convertImagesToPDF()">Convert to PDF</button>
+<div id="pdfResult" class="result"></div>
+</section>
 <section class="tool" id="about">
 <h2>About FreeToolsWorld</h2>
 <p>FreeToolsWorld is a free online tools website designed to make everyday digital tasks simple and easy. Our goal is to provide useful tools in one convenient place.</p>
@@ -304,6 +316,89 @@ document.getElementById("calcResult").textContent=
 Number.isFinite(result)?"Result: "+result:"Please enter a valid calculation.";
 }catch(e){
 document.getElementById("calcResult").textContent="Invalid calculation.";
+}
+}
+  async function convertImagesToPDF(){
+const input=document.getElementById("pdfImages");
+const files=Array.from(input.files);
+const result=document.getElementById("pdfResult");
+
+if(!files.length){
+alert("Please select at least one image.");
+return;
+}
+
+if(!window.jspdf){
+result.textContent="PDF library could not load. Check your internet connection.";
+return;
+}
+
+result.textContent="Creating your PDF... Please wait.";
+
+try{
+const {jsPDF}=window.jspdf;
+let pdf=null;
+
+for(const file of files){
+if(!file.type.startsWith("image/")) continue;
+
+const url=URL.createObjectURL(file);
+
+try{
+const img=await new Promise((resolve,reject)=>{
+const image=new Image();
+image.onload=()=>resolve(image);
+image.onerror=()=>reject(new Error("Image could not be loaded."));
+image.src=url;
+});
+
+const canvas=document.createElement("canvas");
+canvas.width=img.naturalWidth;
+canvas.height=img.naturalHeight;
+
+const ctx=canvas.getContext("2d");
+ctx.fillStyle="#ffffff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(img,0,0);
+
+const imageData=canvas.toDataURL("image/jpeg",0.92);
+const orientation=img.naturalWidth>img.naturalHeight?"landscape":"portrait";
+
+if(!pdf){
+pdf=new jsPDF({orientation,unit:"mm",format:"a4"});
+}else{
+pdf.addPage("a4",orientation);
+}
+
+const pageWidth=pdf.internal.pageSize.getWidth();
+const pageHeight=pdf.internal.pageSize.getHeight();
+const margin=10;
+
+const ratio=Math.min(
+(pageWidth-margin*2)/img.naturalWidth,
+(pageHeight-margin*2)/img.naturalHeight
+);
+
+const width=img.naturalWidth*ratio;
+const height=img.naturalHeight*ratio;
+
+pdf.addImage(imageData,"JPEG",
+(pageWidth-width)/2,
+(pageHeight-height)/2,
+width,height);
+
+}finally{
+URL.revokeObjectURL(url);
+}
+}
+
+if(!pdf) throw new Error("No valid images found.");
+
+pdf.save("FreeToolsWorld-Images.pdf");
+result.textContent="Success! Your PDF has been downloaded.";
+
+}catch(error){
+result.textContent="Something went wrong. Please try again.";
 }
 }
 </script>
