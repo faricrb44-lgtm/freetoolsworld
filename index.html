@@ -57,9 +57,35 @@ footer p{color:#c5cfdf}
 .tools{grid-template-columns:repeat(2,1fr)}
 .hero h1{font-size:29px}
 }
+}
 @media(max-width:450px){
 .tools{grid-template-columns:1fr}
 .card{padding:20px}
+}
+  .tool-info {
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid #e5eaf2;
+  color: #475467;
+  line-height: 1.7;
+}
+
+.tool-info h3 {
+  color: #1769d2;
+  font-size: 19px;
+  margin: 18px 0 8px;
+}
+
+.tool-info p {
+  margin: 8px 0 14px;
+}
+
+.tool-info ol {
+  padding-left: 22px;
+}
+
+.tool-info li {
+  margin-bottom: 7px;
 }
 </style>
 
@@ -220,6 +246,17 @@ footer p{color:#c5cfdf}
 <input type="range" id="quality" min="10" max="100" value="70" aria-label="Image compression quality">
 <button onclick="compress()">Compress Image</button>
 <div id="imgResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is an Image Compressor?</h3>
+<p>An Image Compressor helps reduce the file size of images while maintaining reasonable visual quality. It is useful for websites, social media, and sharing photos online.</p>
+<h3>How to Use the Image Compressor</h3>
+<ol>
+<li>Select an image from your device.</li>
+<li>Adjust the image quality using the slider.</li>
+<li>Click the Compress Image button.</li>
+<li>Download your compressed image.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="qr">
@@ -227,6 +264,17 @@ footer p{color:#c5cfdf}
 <input id="qrText" placeholder="Enter text or website URL">
 <button onclick="makeQR()">Generate QR Code</button>
 <div id="qrResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is a QR Code Generator?</h3>
+<p>A QR Code Generator converts text or website links into scannable QR codes. You can use QR codes to share website links and information quickly.</p>
+<h3>How to Use the QR Code Generator</h3>
+<ol>
+<li>Enter your text or website URL.</li>
+<li>Click Generate QR Code.</li>
+<li>Your QR code will appear on the screen.</li>
+<li>Click Download QR Code to save it.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="age">
@@ -234,12 +282,32 @@ footer p{color:#c5cfdf}
 <input type="date" id="birth" aria-label="Enter your date of birth">
 <button onclick="calculateAge()">Calculate Age</button>
 <div id="ageResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is an Age Calculator?</h3>
+<p>An Age Calculator calculates your age in years, months, and days using your date of birth. It is a simple way to find your exact age.</p>
+<h3>How to Use the Age Calculator</h3>
+<ol>
+<li>Select your date of birth.</li>
+<li>Click Calculate Age.</li>
+<li>Your age will appear in years, months, and days.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="word">
 <h2>Word Counter</h2>
 <textarea id="words" placeholder="Write or paste your text..." oninput="countWords()"></textarea>
 <div id="wordResult" class="result">Words: 0 | Characters: 0</div>
+  <div class="tool-info">
+<h3>What Is a Word Counter?</h3>
+<p>A Word Counter helps you count the number of words and characters in any text. It is useful for writing articles, assignments, captions, and other content.</p>
+<h3>How to Use the Word Counter</h3>
+<ol>
+<li>Type or paste your text into the text box.</li>
+<li>The word and character counts update automatically.</li>
+<li>Edit your text and see the updated count instantly.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="password">
@@ -248,6 +316,17 @@ footer p{color:#c5cfdf}
 <input type="number" id="passLength" value="16" min="8" max="64" aria-label="Password length">
 <button onclick="generatePassword()">Generate Password</button>
 <div id="passResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is a Password Generator?</h3>
+<p>A Password Generator creates random passwords using uppercase letters, lowercase letters, numbers, and special characters. Strong, unique passwords can help protect online accounts.</p>
+<h3>How to Use the Password Generator</h3>
+<ol>
+<li>Choose a password length between 8 and 64 characters.</li>
+<li>Click Generate Password.</li>
+<li>Click Copy to copy your generated password.</li>
+<li>Store your password securely and never share it publicly.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="case">
@@ -258,6 +337,16 @@ footer p{color:#c5cfdf}
 <button onclick="convertCase('title')">Title Case</button>
 <button onclick="convertCase('sentence')">Sentence case</button>
 <div id="caseResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is a Text Case Converter?</h3>
+<p>A Text Case Converter changes text into different letter formats, including uppercase, lowercase, title case, and sentence case. It makes text formatting quick and easy.</p>
+<h3>How to Use the Text Case Converter</h3>
+<ol>
+<li>Enter or paste your text into the text box.</li>
+<li>Choose the case format you need.</li>
+<li>Your converted text will appear below.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="url">
@@ -266,6 +355,17 @@ footer p{color:#c5cfdf}
 <button onclick="urlConvert('encode')">Encode</button>
 <button onclick="urlConvert('decode')">Decode</button>
 <div id="urlResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is a URL Encoder and Decoder?</h3>
+<p>A URL Encoder converts special characters into a format suitable for URLs. A URL Decoder converts encoded text back into readable text.</p>
+<h3>How to Use the URL Encoder / Decoder</h3>
+<ol>
+<li>Enter or paste your text or URL.</li>
+<li>Click Encode to encode the text.</li>
+<li>Click Decode to convert encoded text back.</li>
+<li>Copy the result from the screen.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="calc">
@@ -274,6 +374,17 @@ footer p{color:#c5cfdf}
 <button onclick="calculate()">Calculate</button>
 <button onclick="document.getElementById('calcDisplay').value=''">Clear</button>
 <div id="calcResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is an Online Calculator?</h3>
+<p>This free online calculator helps you perform basic mathematical calculations, including addition, subtraction, multiplication, and division.</p>
+<h3>How to Use the Calculator</h3>
+<ol>
+<li>Enter a mathematical expression.</li>
+<li>Use +, -, *, and / for basic operations.</li>
+<li>Click Calculate to see the result.</li>
+<li>Click Clear to remove the previous expression.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="imgpdf">
@@ -282,6 +393,17 @@ footer p{color:#c5cfdf}
 <input type="file" id="pdfImages" accept="image/*" multiple aria-label="Choose images to convert to PDF">
 <button onclick="convertImagesToPDF()">Convert to PDF</button>
 <div id="pdfResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is an Image to PDF Converter?</h3>
+<p>An Image to PDF Converter combines multiple images into a single PDF document. It is useful for organizing photos, scanned pages, and documents.</p>
+<h3>How to Convert Images to PDF</h3>
+<ol>
+<li>Select one or more images from your device.</li>
+<li>Click Convert to PDF.</li>
+<li>Wait for the conversion to finish.</li>
+<li>Your PDF file will download automatically.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="pdftoimage">
@@ -290,6 +412,17 @@ footer p{color:#c5cfdf}
 <input type="file" id="pdfFile" accept="application/pdf" aria-label="Choose a PDF file to convert to images">
 <button onclick="convertPDFToImages()">Convert to Images</button>
 <div id="pdfImageResult" class="result"></div>
+  <div class="tool-info">
+<h3>What Is a PDF to Image Converter?</h3>
+<p>A PDF to Image Converter changes PDF pages into JPG images. It is useful when you need to save or share individual pages as image files.</p>
+<h3>How to Convert PDF to Images</h3>
+<ol>
+<li>Select a PDF file from your device.</li>
+<li>Click Convert to Images.</li>
+<li>Wait while the PDF pages are converted.</li>
+<li>Click Download JPG under each page to save it.</li>
+</ol>
+  </div>
 </section>
 
 <section class="tool" id="about">
