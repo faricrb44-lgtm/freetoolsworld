@@ -181,6 +181,13 @@ footer p{color:#c5cfdf}
 <button onclick="convertImagesToPDF()">Convert to PDF</button>
 <div id="pdfResult" class="result"></div>
 </section>
+  <section class="tool" id="pdftoimage">
+<h2>PDF to Image Converter</h2>
+<p>Select a PDF file to convert its pages into JPG images.</p>
+<input type="file" id="pdfFile" accept="application/pdf">
+<button onclick="convertPDFToImages()">Convert to Images</button>
+<div id="pdfImageResult" class="result"></div>
+  </section>
 <section class="tool" id="about">
 <h2>About FreeToolsWorld</h2>
 <p>FreeToolsWorld is a free online tools website designed to make everyday digital tasks simple and easy. Our goal is to provide useful tools in one convenient place.</p>
@@ -401,6 +408,83 @@ result.textContent="Success! Your PDF has been downloaded.";
 result.textContent="Something went wrong. Please try again.";
 }
 }
+  async function convertPDFToImages() {
+    const fileInput = document.getElementById("pdfFile");
+    const result = document.getElementById("pdfImageResult");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        result.textContent = "Please select a PDF file first.";
+        return;
+    }
+
+    if (!window.pdfjsLib) {
+        result.textContent = "PDF library could not load. Please refresh the page.";
+        return;
+    }
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    result.textContent = "Converting PDF pages...";
+
+    try {
+        const pdfData = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+
+        result.innerHTML = "";
+        const heading = document.createElement("p");
+        heading.textContent = "Total pages: " + pdf.numPages;
+        result.appendChild(heading);
+
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const page = await pdf.getPage(pageNumber);
+            const viewport = page.getViewport({ scale: 1.5 });
+
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+
+            const blob = await new Promise(resolve =>
+                canvas.toBlob(resolve, "image/jpeg", 0.92)
+            );
+
+            if (!blob) continue;
+
+            const imageURL = URL.createObjectURL(blob);
+
+            const wrapper = document.createElement("div");
+            const title = document.createElement("h3");
+            title.textContent = "Page " + pageNumber;
+
+            const image = document.createElement("img");
+            image.src = imageURL;
+            image.alt = "PDF Page " + pageNumber;
+
+            const link = document.createElement("a");
+            link.href = imageURL;
+            link.download = "page-" + pageNumber + ".jpg";
+            link.textContent = "Download JPG";
+
+            wrapper.appendChild(title);
+            wrapper.appendChild(image);
+            wrapper.appendChild(document.createElement("br"));
+            wrapper.appendChild(link);
+
+            result.appendChild(wrapper);
+        }
+    } catch (error) {
+        result.textContent = "Conversion failed. Please check your PDF file and try again.";
+        console.error(error);
+    }
+    }
 </script>
 </body>
 </html>
