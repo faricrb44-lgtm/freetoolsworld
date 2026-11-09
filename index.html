@@ -208,9 +208,9 @@ footer p{color:#c5cfdf}
 
 <section class="tool" id="image">
 <h2>Image Compressor</h2>
-<input type="file" id="imgFile" accept="image/*">
+<input type="file" id="imgFile" accept="image/*" aria-label="Choose an image to compress">
 <label>Image quality</label>
-<input type="range" id="quality" min="10" max="100" value="70">
+<input type="range" id="quality" min="10" max="100" value="70" aria-label="Image compression quality">
 <button onclick="compress()">Compress Image</button>
 <div id="imgResult" class="result"></div>
 </section>
@@ -224,7 +224,7 @@ footer p{color:#c5cfdf}
 
 <section class="tool" id="age">
 <h2>Age Calculator</h2>
-<input type="date" id="birth">
+<input type="date" id="birth" aria-label="Enter your date of birth">
 <button onclick="calculateAge()">Calculate Age</button>
 <div id="ageResult" class="result"></div>
 </section>
@@ -238,7 +238,7 @@ footer p{color:#c5cfdf}
 <section class="tool" id="password">
 <h2>Password Generator</h2>
 <label>Password length</label>
-<input type="number" id="passLength" value="16" min="8" max="64">
+<input type="number" id="passLength" value="16" min="8" max="64" aria-label="Password length">
 <button onclick="generatePassword()">Generate Password</button>
 <div id="passResult" class="result"></div>
 </section>
@@ -272,7 +272,7 @@ footer p{color:#c5cfdf}
 <section class="tool" id="imgpdf">
 <h2>Image to PDF Converter</h2>
 <p>Select one or more images to create a PDF file.</p>
-<input type="file" id="pdfImages" accept="image/*" multiple>
+<input type="file" id="pdfImages" accept="image/*" multiple aria-label="Choose images to convert to PDF">
 <button onclick="convertImagesToPDF()">Convert to PDF</button>
 <div id="pdfResult" class="result"></div>
 </section>
@@ -280,7 +280,7 @@ footer p{color:#c5cfdf}
 <section class="tool" id="pdftoimage">
 <h2>PDF to Image Converter</h2>
 <p>Select a PDF file to convert its pages into JPG images.</p>
-<input type="file" id="pdfFile" accept="application/pdf">
+<input type="file" id="pdfFile" accept="application/pdf" aria-label="Choose a PDF file to convert to images">
 <button onclick="convertPDFToImages()">Convert to Images</button>
 <div id="pdfImageResult" class="result"></div>
 </section>
