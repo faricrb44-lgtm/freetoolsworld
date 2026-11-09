@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://faricrb44-lgtm.github.io/freetoolsworld/sitemap.xml
