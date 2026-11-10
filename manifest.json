@@ -1,0 +1,11 @@
+{
+  "name": "FreeToolsWorld",
+  "short_name": "FreeTools",
+  "description": "Free online tools for everyday digital tasks.",
+  "start_url": "/freetoolsworld/",
+  "scope": "/freetoolsworld/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1769d2",
+  "orientation": "portrait"
+}
